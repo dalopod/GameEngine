@@ -12,7 +12,10 @@ Entity::Entity() {
 	this->moving = false;
 	this->x = 0;
 	this->y = 0;
-
+	this->health = 4;
+	this->mana = 4;
+	this->maxHealth = 4;
+	this->maxMana = 4;
 }
 
 Entity::Entity(int x, int y, bool isSolid, sf::Texture texture) {

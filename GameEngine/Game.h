@@ -26,9 +26,8 @@ private:
 	//Renderer* renderer_;
 	Board* currentArea_;
 	Entity* entities_;
+	UserInterface* ui_;
 	std::vector<Tile> tiles_;
-	
-	//UserInterface* ui_;
 	
 	// Initialize asset arrays.
 	void initialize();

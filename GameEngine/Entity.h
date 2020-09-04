@@ -23,6 +23,10 @@ public:
 	// Current location on the screen of the entity.
 	int x;
 	int y;
+	int health;
+	int mana;
+	int maxHealth;
+	int maxMana;
 
 private:
 	sf::Texture frontSprite_;

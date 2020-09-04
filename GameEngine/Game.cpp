@@ -16,6 +16,7 @@ Game::Game() {
 	Game::loadLevel(0, 0);
 	this->levelx = 0;
 	this->levely = 0;
+	this->ui_ = new UserInterface();
 	// Ghetto memory fix
 }
 
@@ -252,6 +253,8 @@ void Game::loadLevel(int x, int y) {
 void Game::render(sf::RenderWindow* window) {
 	// clear the window with black color
 	window->clear(sf::Color::Black);
+
+	// Draw level.
 	for (int i = 0; i < 10; i++) {
 		for (int j = 0; j < 8; j++) {
 			sf::Sprite sprite;
@@ -263,12 +266,22 @@ void Game::render(sf::RenderWindow* window) {
 			// window.draw(...);
 		}
 	}
+
+	// Draw Entities
 	sf::Sprite sprite;
 	sprite.setTexture(*this->entities_[0].getFrontSprite());
 	sprite.setScale(sf::Vector2f(5.f, 5.f));
 	sprite.setPosition(sf::Vector2f(this->entities_[0].x * 80.f, 560 - this->entities_[0].y * 80.f));
 	window->draw(sprite);
 
+	// Draw UI.
+	sprite.setTexture(*this->ui_->getHealthTexture());
+	sprite.setPosition(sf::Vector2f(0, 640));
+	window->draw(sprite);
+
+	sprite.setTexture(*this->ui_->getManaTexture());
+	sprite.setPosition(sf::Vector2f(2 * 80.f, 640));
+	window->draw(sprite);
 
 	// end the current frame
 	window->display();
