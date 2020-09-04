@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Tile.h"
 
+// Main class that controls the functions of the game.
 class Game
 {
 public:
@@ -35,9 +36,10 @@ private:
 	// Processes the inputs and returns the last key pressed.
 	bool processInput(int tick, sf::RenderWindow* window, int* action);
 
-	// Processes inputs and updates the gamestate.
+	// Processes actions and updates the game state.
 	bool update(int tick, Entity* dave, int action, bool actionTaken);
 
+	// Move an entity and check for collision or off-level movement
 	void move(Entity* entity, int xChange, int yChange);
 
 	// Loads a new level if necessary.

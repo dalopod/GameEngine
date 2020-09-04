@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML\Graphics\Texture.hpp>
 #include <iostream>
+
+// Container for map tiles.
 class Tile
 {
 public:
