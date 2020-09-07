@@ -11,7 +11,10 @@ constexpr auto MS_PER_UPDATE = 1000 / 60;
 // Game
 Game::Game() {
 	//this->renderer_ = new Renderer();
-	this->entities_ = new Entity[32];
+	this->entities_ .reserve(32);
+	this->entities_.push_back(Entity("sprite", true));
+	this->entities_.at(0).x = 3;
+	this->entities_.at(0).y = 5;
 	Game::initialize();
 	Game::loadLevel(0, 0);
 	this->levelx = 0;
@@ -40,17 +43,6 @@ void Game::gameLoop() {
 	auto previous = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 	double lag = 0.0;
 	int tick = 0;
-	// Temporary
-	sf::Texture texture;
-	if (!texture.loadFromFile("sprites/spriteFrontRed.png")) {
-		// error...
-		std::cout << "texture error";
-	}
-	Entity* dave = new Entity(3, 5, true, texture);
-	this->entities_[0] = *dave;
-	dave->~Entity();
-	dave = &this->entities_[0];
-	// End temporary
 	sf::RenderWindow window(sf::VideoMode(800, 720), "SPRITE ORGY");
 	int action = 0;
 	bool keyReleased = false;
@@ -67,7 +59,7 @@ void Game::gameLoop() {
 		}
 		while (lag >= MS_PER_UPDATE)
 		{
-			actionTaken = Game::update(tick, dave, action, actionTaken);
+			actionTaken = Game::update(tick, &this->entities_.at(0), action, actionTaken);
 			if ((keyReleased && actionTaken) || (action == 0)) {
 				//std::cout << action << "\n";
 				action = 0;
@@ -165,24 +157,28 @@ bool Game::update(int tick, Entity* dave, int action, bool actionTaken) {
 		case 1:
 			actionTaken = true;
 			dave->moving = true;
+			dave->direction = 1;
 			move(dave, 0, 1);
 			break;
 		// Right
 		case 2:
 			actionTaken = true;
 			dave->moving = true;
+			dave->direction = 2;
 			move(dave, 1, 0);
 			break;
 		// Down
 		case 3:
 			actionTaken = true;
 			dave->moving = true;
+			dave->direction = 3;
 			move(dave, 0, -1);
 			break;
 		// Left
 		case 4:
 			actionTaken = true;
 			dave->moving = true;
+			dave->direction = 4;
 			move(dave, -1, 0);
 			break;
 		case 5:
@@ -239,7 +235,6 @@ void Game::loadLevel(int x, int y) {
 			for (int i = 0; i < 10; i++) {
 				currentArea_->setBoardTile(&tiles_.at((line[i]) - 48), i, y);
 			}
-			std::cout << y;
 			y--;
 		}
 		myfile.close();
@@ -269,9 +264,9 @@ void Game::render(sf::RenderWindow* window) {
 
 	// Draw Entities
 	sf::Sprite sprite;
-	sprite.setTexture(*this->entities_[0].getFrontSprite());
+	sprite.setTexture(*this->entities_.at(0).getSprite());
 	sprite.setScale(sf::Vector2f(5.f, 5.f));
-	sprite.setPosition(sf::Vector2f(this->entities_[0].x * 80.f, 560 - this->entities_[0].y * 80.f));
+	sprite.setPosition(sf::Vector2f(this->entities_.at(0).x * 80.f, 560 - this->entities_.at(0).y * 80.f));
 	window->draw(sprite);
 
 	// Draw UI.

@@ -25,8 +25,8 @@ private:
 	// References to the various required engines.
 	//Renderer* renderer_;
 	Board* currentArea_;
-	Entity* entities_;
 	UserInterface* ui_;
+	std::vector<Entity> entities_;
 	std::vector<Tile> tiles_;
 	
 	// Initialize asset arrays.
